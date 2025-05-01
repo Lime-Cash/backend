@@ -1,0 +1,8 @@
+# external_methods.yml
+one:
+  name: Credit Card
+  description: Visa/Mastercard payment
+
+two:
+  name: Bank Transfer
+  description: Direct bank transfer

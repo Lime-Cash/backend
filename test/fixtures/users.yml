@@ -1,0 +1,10 @@
+# users.yml
+one:
+  email: user1@example.com
+  name: User One
+  password_digest: $2a$12$abcdefghijklmnopqrstuv
+
+two:
+  email: user2@example.com
+  name: User Two
+  password_digest: $2a$12$vwxyzabcdefghijklmnotuv

@@ -1,0 +1,12 @@
+# transfers.yml
+one:
+  amount: 50.00
+  date: 2025-04-30 19:44:22
+  from_account: one
+  to_account: two
+
+two:
+  amount: 25.00
+  date: 2025-04-30 19:44:22
+  from_account: two
+  to_account: one
