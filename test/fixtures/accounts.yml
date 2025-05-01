@@ -1,0 +1,8 @@
+# accounts.yml
+one:
+  balance: 100.00
+  user: one
+
+two:
+  balance: 200.00
+  user: two
