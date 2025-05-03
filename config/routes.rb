@@ -5,6 +5,10 @@ Rails.application.routes.draw do
   resources :accounts
   resources :users, only: [ :create, :show ]
 
+  # Authentication routes
+  post "login" => "authentication#create", as: :login
+  post "register" => "users#create", as: :register
+
   # Health check route
   get "up" => "rails/health#show", as: :rails_health_check
 end
