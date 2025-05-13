@@ -57,4 +57,4 @@ class TransfersServiceTest < ActiveSupport::TestCase
     assert_equal initial_to_balance, to_account.balance
     assert_equal 0, Transfer.where(from_account: from_account, to_account: to_account).count
   end
-end 
+end
