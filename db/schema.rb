@@ -10,21 +10,22 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_04_30_224422) do
+ActiveRecord::Schema[8.0].define(version: 2025_05_13_210527) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
+  enable_extension "pgcrypto"
 
-  create_table "accounts", force: :cascade do |t|
+  create_table "accounts", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.decimal "balance"
-    t.bigint "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.uuid "user_id"
     t.index ["user_id"], name: "index_accounts_on_user_id"
   end
 
   create_table "accounts_external_methods", id: false, force: :cascade do |t|
-    t.bigint "account_id", null: false
     t.bigint "external_method_id", null: false
+    t.uuid "account_id", null: false
   end
 
   create_table "external_methods", force: :cascade do |t|
@@ -37,10 +38,10 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_30_224422) do
   create_table "transactions", force: :cascade do |t|
     t.decimal "amount"
     t.datetime "date"
-    t.bigint "account_id", null: false
     t.bigint "external_method_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.uuid "account_id"
     t.index ["account_id"], name: "index_transactions_on_account_id"
     t.index ["external_method_id"], name: "index_transactions_on_external_method_id"
   end
@@ -48,15 +49,15 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_30_224422) do
   create_table "transfers", force: :cascade do |t|
     t.decimal "amount"
     t.datetime "date"
-    t.bigint "from_account_id"
-    t.bigint "to_account_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.uuid "from_account_id"
+    t.uuid "to_account_id"
     t.index ["from_account_id"], name: "index_transfers_on_from_account_id"
     t.index ["to_account_id"], name: "index_transfers_on_to_account_id"
   end
 
-  create_table "users", force: :cascade do |t|
+  create_table "users", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "email"
     t.string "name"
     t.string "password_digest"
@@ -66,6 +67,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_30_224422) do
   end
 
   add_foreign_key "accounts", "users"
+  add_foreign_key "accounts_external_methods", "accounts"
   add_foreign_key "transactions", "accounts"
   add_foreign_key "transactions", "external_methods"
   add_foreign_key "transfers", "accounts", column: "from_account_id"

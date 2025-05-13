@@ -8,6 +8,7 @@ Rails.application.routes.draw do
   # Authentication routes
   post "login" => "authentication#create", as: :login
   post "register" => "users#create", as: :register
+  get "accounts/balance/:account_id/" => "accounts#balance", as: :balance
 
   # Health check route
   get "up" => "rails/health#show", as: :rails_health_check
