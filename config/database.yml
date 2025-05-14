@@ -24,7 +24,6 @@ default: &default
   password: root
   database: wallet_api_development
 
-
 development:
   <<: *default
   host: localhost
