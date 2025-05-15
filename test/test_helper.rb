@@ -2,6 +2,8 @@ ENV["RAILS_ENV"] ||= "test"
 require_relative "../config/environment"
 require "rails/test_help"
 
+Rails.application.credentials.secret_key_base ||= "test_secret_key_base_1234567890"
+
 module ActiveSupport
   class TestCase
     # Run tests in parallel with specified workers
