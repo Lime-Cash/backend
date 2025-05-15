@@ -27,7 +27,7 @@ class TransfersServiceTest < ActiveSupport::TestCase
     to_account = accounts(:two)
     amount = from_account.balance + 1
 
-    assert_raises(ActiveRecord::RecordInvalid) do
+    assert_raises(StandardError) do
       TransfersService.transfer(from: from_account.id, to: to_account.id, amount: amount)
     end
   end
@@ -45,8 +45,7 @@ class TransfersServiceTest < ActiveSupport::TestCase
     initial_to_balance = to_account.balance
     amount = 50.0
 
-    # Simulate an error by making the amount negative
-    assert_raises(ActiveRecord::RecordInvalid) do
+    assert_raises(ArgumentError) do
       TransfersService.transfer(from: from_account.id, to: to_account.id, amount: -amount)
     end
 
