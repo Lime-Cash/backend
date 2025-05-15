@@ -19,6 +19,44 @@ class AccountTest < ActiveSupport::TestCase
     assert_includes account.errors[:balance], "is not a number"
   end
 
+  test "balance cant be negative" do
+    account = Account.new(user: users(:one), balance: -5.0)
+    assert_not account.valid?
+  end
+
+  test "deposit money should add balance" do
+    account = Account.new(user: users(:one), balance: 0)
+    account.deposit(10)
+    assert_equal account.balance, 10
+  end
+
+  test "deposit negative amount should raise an exception" do
+    account = Account.new(user: users(:one), balance: 0)
+    assert_raises(ArgumentError) do
+      account.deposit(-10)
+    end
+  end
+
+  test "withdraw money should subtract balance" do
+    account = Account.new(user: users(:one), balance: 10)
+    account.withdraw(5)
+    assert_equal account.balance, 5
+  end
+
+  test "withdraw negative amount should raise an exception" do
+    account = Account.new(user: users(:one), balance: 10)
+    assert_raises(ArgumentError) do
+      account.withdraw(-10)
+    end
+  end
+
+  test "cant withdraw more than current balance" do
+    account = Account.new(user: users(:one), balance: 10)
+    assert_raises(StandardError) do
+      account.withdraw(20)
+    end
+  end
+
   test "user can only have one account" do
     existing = accounts(:one)
     duplicate = Account.new(user: existing.user, balance: 50.0)
