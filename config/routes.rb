@@ -13,7 +13,7 @@ Rails.application.routes.draw do
   get "my_balance" => "accounts#my_balance", as: :my_balance
 
   # Tranfers routes
-  post "/transfers" => "transfers#create"
+  post "/transfer" => "transfers#create"
 
   # Health check route
   get "up" => "rails/health#show", as: :rails_health_check
