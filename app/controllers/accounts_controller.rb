@@ -6,7 +6,7 @@ class AccountsController < ApplicationController
     begin
       balance = AccountService.get_balance_by_user(@current_user)
       # Convertir a un string formateado para evitar problemas con la notación científica
-      balance_value = balance.to_s('F')
+      balance_value = balance.to_s("F")
       render json: { balance: balance_value }, status: :ok
     rescue ActiveRecord::RecordNotFound => e
       render json: { error: e.message }, status: :not_found

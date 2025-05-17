@@ -32,3 +32,4 @@
 /config/master.key
 
 /.idea
+/config/credentials/test.key

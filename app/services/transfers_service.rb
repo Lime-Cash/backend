@@ -1,19 +1,16 @@
 class TransfersService
   def self.transfer(from:, to:, amount:)
+  raise ArgumentError, "Amount must be positive" unless amount.positive?
+
     ActiveRecord::Base.transaction do
       from_account = Account.find(from)
       to_account = Account.find(to)
 
-      if amount <= 0
-        raise ActiveRecord::RecordInvalid.new(from_account), "Amount must be positive"
-      end
+      from_account.withdraw(amount)
+      to_account.deposit(amount)
 
-      if from_account.balance < amount
-        raise ActiveRecord::RecordInvalid.new(from_account), "Insufficient funds"
-      end
-
-      from_account.update!(balance: from_account.balance - amount)
-      to_account.update!(balance: to_account.balance + amount)
+      from_account.save!
+      to_account.save!
 
       Transfer.create!(
         amount: amount,
