@@ -2,7 +2,7 @@ class AuthenticationController < ApplicationController
   skip_before_action :authenticate_request, only: [ :create ]
 
   def create
-    user = User.find_by(email: params[:email])
+    user = User.find_by(email: params[:email].to_s.downcase)
 
     if user&.authenticate(params[:password])
       token = JWT.encode({ user_id: user.id }, Rails.application.credentials.secret_key_base)
