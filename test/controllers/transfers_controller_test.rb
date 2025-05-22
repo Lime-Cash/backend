@@ -84,4 +84,16 @@ class TransfersControllerTest < ActionDispatch::IntegrationTest
     assert_response :unauthorized
     assert_includes JSON.parse(response.body)["error"], "Nil JSON web token"
   end
+
+  test "cant send money to same user" do
+    headers = auth_headers(@sender)
+
+    post transfer_url,
+      params: { email: @sender.email, amount: 50 },
+      headers: headers,
+      as: :json
+
+    assert_response :bad_request
+    assert_includes JSON.parse(response.body)["error"], "yourself"
+  end
 end

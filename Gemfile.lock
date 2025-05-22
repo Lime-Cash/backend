@@ -91,7 +91,7 @@ GEM
     debug (1.10.0)
       irb (~> 1.10)
       reline (>= 0.3.8)
-    diff-lcs (1.6.1)
+    diff-lcs (1.6.2)
     dotenv (3.1.8)
     drb (2.2.1)
     ed25519 (1.3.0)
@@ -111,7 +111,7 @@ GEM
       rdoc (>= 4.0.0)
       reline (>= 0.4.2)
     jaro_winkler (1.6.1)
-    json (2.10.2)
+    json (2.12.0)
     jwt (2.10.1)
       base64
     kamal (2.5.3)
@@ -129,7 +129,7 @@ GEM
       rexml (>= 3.3.9)
     kramdown-parser-gfm (1.1.0)
       kramdown (~> 2.0)
-    language_server-protocol (3.17.0.4)
+    language_server-protocol (3.17.0.5)
     lint_roller (1.1.0)
     logger (1.7.0)
     loofah (2.24.0)
@@ -192,6 +192,9 @@ GEM
     raabro (1.4.0)
     racc (1.8.1)
     rack (3.1.14)
+    rack-cors (3.0.0)
+      logger
+      rack (>= 3.0.14)
     rack-session (2.1.1)
       base64 (>= 0.1.0)
       rack (>= 3.0.0)
@@ -230,7 +233,7 @@ GEM
       zeitwerk (~> 2.6)
     rainbow (3.1.1)
     rake (13.2.1)
-    rbs (3.9.2)
+    rbs (3.9.4)
       logger
     rdoc (6.13.1)
       psych (>= 4.0.0)
@@ -240,7 +243,7 @@ GEM
     reverse_markdown (3.0.0)
       nokogiri
     rexml (3.4.1)
-    rubocop (1.75.2)
+    rubocop (1.75.6)
       json (~> 2.3)
       language_server-protocol (~> 3.17.0.2)
       lint_roller (~> 1.1.0)
@@ -270,14 +273,14 @@ GEM
       rubocop-rails (>= 2.30)
     ruby-debug-ide (0.7.5)
       rake (>= 0.8.1)
-    ruby-lsp (0.23.16)
+    ruby-lsp (0.23.21)
       language_server-protocol (~> 3.17.0)
       prism (>= 1.2, < 2.0)
       rbs (>= 3, < 4)
       sorbet-runtime (>= 0.5.10782)
     ruby-progressbar (1.13.0)
     securerandom (0.4.1)
-    solargraph (0.54.3)
+    solargraph (0.54.5)
       backport (~> 1.2)
       benchmark (~> 0.4)
       bundler (~> 2.0)
@@ -312,7 +315,7 @@ GEM
       fugit (~> 1.11.0)
       railties (>= 7.1)
       thor (~> 1.3.1)
-    sorbet-runtime (0.5.12046)
+    sorbet-runtime (0.5.12119)
     sshkit (1.24.0)
       base64
       logger
@@ -364,6 +367,7 @@ DEPENDENCIES
   kamal
   pg (~> 1.1)
   puma (>= 5.0)
+  rack-cors
   rails (~> 8.0.2)
   rubocop-rails-omakase
   ruby-debug-ide

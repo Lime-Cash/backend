@@ -29,4 +29,11 @@ class UserTest < ActiveSupport::TestCase
     assert user.authenticate("password123")
     assert_not user.authenticate("wrong")
   end
+
+  test "email should be case insensitive" do
+    existing = users(:one)
+    duplicate = User.new(email: existing.email.to_s.upcase,  name: "New User", password: "password123")
+    assert_not duplicate.valid?
+    assert_includes duplicate.errors[:email], "has already been taken"
+  end
 end
