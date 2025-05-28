@@ -10,7 +10,7 @@ class AccountServiceTest < ActiveSupport::TestCase
     @user = User.create!(
       name: "Usuario One",
       email: "one@example.com",
-      password: "123456"
+      password: "flJlfall123!"
     )
     @account = Account.create!(
       user: @user,
@@ -20,7 +20,7 @@ class AccountServiceTest < ActiveSupport::TestCase
     @other_user = User.create!(
       name: "Usuario Two",
       email: "two@example.com",
-      password: "123456"
+      password: "ffasdlfLKJ324l!@"
     )
     @other_account = Account.create!(
       user: @other_user,

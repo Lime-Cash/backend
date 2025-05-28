@@ -2,7 +2,7 @@ require "test_helper"
 
 class AccountTest < ActiveSupport::TestCase
   test "valid account" do
-    user = User.create!(name: "Test User", email: "test@example.com", password: "password")
+    user = User.create!(name: "Test User", email: "test@example.com", password: "Password123!")
     account = Account.new(user: user, balance: 100.0)
     assert account.valid?
   end
