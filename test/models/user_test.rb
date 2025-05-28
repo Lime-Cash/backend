@@ -122,8 +122,8 @@ class UserTest < ActiveSupport::TestCase
   end
 
   test "accepts various special characters" do
-    special_chars = ['@', '$', '!', '%', '*', '?', '&']
-    
+    special_chars = [ "@", "$", "!", "%", "*", "?", "&" ]
+
     special_chars.each do |char|
       user = User.new(email: "test#{char}@example.com", name: "Test User", password: "Password123#{char}")
       assert user.valid?, "Should accept password with special character: #{char}"

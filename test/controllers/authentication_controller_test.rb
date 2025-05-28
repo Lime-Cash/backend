@@ -49,4 +49,3 @@ class AuthenticationControllerTest < ActionDispatch::IntegrationTest
     assert_not_nil JSON.parse(@response.body)["token"]
   end
 end
-
