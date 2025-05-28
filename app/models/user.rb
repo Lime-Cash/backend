@@ -8,7 +8,7 @@ class User < ApplicationRecord
   # Strong password validation
   validates :password, length: { minimum: 8 }, if: :password_required?
   validates :password, format: {
-    with: /\A(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]/,
+    with: /\A(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]+\z/,
     message: "must include at least one lowercase letter, one uppercase letter, one number, and one special character"
   }, if: :password_required?
 
