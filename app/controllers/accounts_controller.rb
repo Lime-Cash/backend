@@ -1,11 +1,8 @@
 class AccountsController < ApplicationController
-  def index
-  end
-
-  def my_balance
+  def balance
     begin
       balance = AccountService.get_balance_by_user(@current_user)
-      # Convertir a un string formateado para evitar problemas con la notación científica
+
       balance_value = balance.to_s("F")
       render json: { balance: balance_value }, status: :ok
     rescue ActiveRecord::RecordNotFound => e
@@ -16,12 +13,8 @@ class AccountsController < ApplicationController
     end
   end
 
-  def create
-  end
-
-  def update
-  end
-
-  def destroy
+  def activity
+    activity = AccountService.get_activity(@current_user)
+    render json: activity
   end
 end

@@ -10,7 +10,8 @@ Rails.application.routes.draw do
   post "register" => "users#create", as: :register
 
   # Accounts routes
-  get "my_balance" => "accounts#my_balance", as: :my_balance
+  get "balance" => "accounts#balance", as: :balance
+  get "activity" => "accounts#activity", as: :activity
 
   # Tranfers routes
   post "/transfer" => "transfers#create"

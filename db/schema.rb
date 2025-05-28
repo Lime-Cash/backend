@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_05_13_210527) do
+ActiveRecord::Schema[8.0].define(version: 2025_05_28_175002) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pgcrypto"
@@ -24,8 +24,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_13_210527) do
   end
 
   create_table "accounts_external_methods", id: false, force: :cascade do |t|
+    t.bigint "account_id", null: false
     t.bigint "external_method_id", null: false
-    t.uuid "account_id", null: false
   end
 
   create_table "external_methods", force: :cascade do |t|
@@ -43,7 +43,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_13_210527) do
     t.datetime "updated_at", null: false
     t.uuid "account_id"
     t.index ["account_id"], name: "index_transactions_on_account_id"
-    t.index ["external_method_id"], name: "index_transactions_on_external_method_id"
   end
 
   create_table "transfers", force: :cascade do |t|
@@ -67,9 +66,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_13_210527) do
   end
 
   add_foreign_key "accounts", "users"
-  add_foreign_key "accounts_external_methods", "accounts"
   add_foreign_key "transactions", "accounts"
-  add_foreign_key "transactions", "external_methods"
   add_foreign_key "transfers", "accounts", column: "from_account_id"
   add_foreign_key "transfers", "accounts", column: "to_account_id"
 end
