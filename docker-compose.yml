@@ -10,14 +10,22 @@ services:
     ports:
       - "5432:5432"
 
+  bank_api:
+    build:
+      context: ./bank_api
+    environment:
+      PORT: 3000
+
   api:
     build:
       context: .
     environment:
       DATABASE_URL: postgres://wallet_api:${DB_PASSWORD}@db:5432/wallet_api_production
       SECRET_KEY_BASE: ${SECRET_KEY_BASE}
+      BANK_API_URL: http://bank_api:3000
     depends_on:
       - db
+      - bank_api
 
 volumes:
   postgres_dev_data:

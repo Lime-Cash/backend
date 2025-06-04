@@ -3,10 +3,8 @@ one:
   amount: 75.00
   date: 2025-04-30 19:44:18
   account: one
-  external_method: one
 
 two:
   amount: 125.00
   date: 2025-04-30 19:44:18
   account: two
-  external_method: two

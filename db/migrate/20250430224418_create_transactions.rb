@@ -4,7 +4,6 @@ class CreateTransactions < ActiveRecord::Migration[8.0]
       t.decimal :amount
       t.datetime :date
       t.references :account, null: false, foreign_key: true
-      t.references :external_method, null: false, foreign_key: true
 
       t.timestamps
     end

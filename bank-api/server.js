@@ -19,9 +19,11 @@ const accounts = {
 
 // Validation helpers
 const validateAmount = (amount) => {
-  if (!amount || isNaN(amount) || amount <= 0) {
+  const numAmount = parseFloat(amount);
+  if (!amount || isNaN(numAmount) || numAmount <= 0) {
     throw new Error('Invalid amount. Amount must be a positive number.');
   }
+  return numAmount;
 };
 
 const validateCBU = (cbu) => {
@@ -36,25 +38,25 @@ const validateCBU = (cbu) => {
 // POST /withdraw - Withdraw money from account
 app.post('/withdraw', (req, res) => {
   try {
-    const { cbu, amount } = req.body;
-    
+    const { cbu, amount: rawAmount } = req.body;
+
     // Validate inputs
     validateCBU(cbu);
-    validateAmount(amount);
-    
+    const amount = validateAmount(rawAmount);
+
     const account = accounts[cbu];
-    
+
     // Check if sufficient funds
     if (account.balance < amount) {
       return res.status(400).json({
         success: false,
-        error: `Insufficient funds}`
+        error: `Insufficient funds`
       });
     }
-    
+
     // Perform withdrawal
     account.balance -= amount;
-    
+
     res.json({
       success: true,
       message: `Successfully withdrew $${amount.toFixed(2)} from account ${cbu}`,
@@ -69,7 +71,7 @@ app.post('/withdraw', (req, res) => {
         }
       }
     });
-    
+
   } catch (error) {
     const statusCode = error.message.includes('not found') ? 404 : 400;
     res.status(statusCode).json({
@@ -82,17 +84,17 @@ app.post('/withdraw', (req, res) => {
 // POST /deposit - Deposit money to account
 app.post('/deposit', (req, res) => {
   try {
-    const { cbu, amount } = req.body;
-    
+    const { cbu, amount: rawAmount } = req.body;
+
     // Validate inputs
     validateCBU(cbu);
-    validateAmount(amount);
-    
+    const amount = validateAmount(rawAmount);
+
     const account = accounts[cbu];
-    
+
     // Perform deposit
     account.balance += amount;
-    
+
     res.json({
       success: true,
       message: `Successfully deposited $${amount.toFixed(2)} to account ${cbu}`,
@@ -107,7 +109,7 @@ app.post('/deposit', (req, res) => {
         }
       }
     });
-    
+
   } catch (error) {
     const statusCode = error.message.includes('not found') ? 404 : 400;
     res.status(statusCode).json({
