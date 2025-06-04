@@ -12,7 +12,7 @@ services:
 
   bank_api:
     build:
-      context: ./bank_api
+      context: ./bank-api
     environment:
       PORT: 3000
 
