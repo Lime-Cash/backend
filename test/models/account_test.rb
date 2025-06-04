@@ -2,7 +2,7 @@ require "test_helper"
 
 class AccountTest < ActiveSupport::TestCase
   test "valid account" do
-    user = User.create!(name: "Test User", email: "test@example.com", password: "password")
+    user = User.create!(name: "Test User", email: "test@example.com", password: "Password123!")
     account = Account.new(user: user, balance: 100.0)
     assert account.valid?
   end
@@ -69,6 +69,5 @@ class AccountTest < ActiveSupport::TestCase
     assert_respond_to account, :transactions
     assert_respond_to account, :outgoing_transfers
     assert_respond_to account, :incoming_transfers
-    assert_respond_to account, :external_methods
   end
 end

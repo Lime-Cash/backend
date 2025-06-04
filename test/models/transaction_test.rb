@@ -6,7 +6,6 @@ class TransactionTest < ActiveSupport::TestCase
       amount: 50.0,
       date: Time.current,
       account: accounts(:one),
-      external_method: external_methods(:one)
     )
     assert transaction.valid?
   end
@@ -15,7 +14,6 @@ class TransactionTest < ActiveSupport::TestCase
     transaction = Transaction.new(
       date: Time.current,
       account: accounts(:one),
-      external_method: external_methods(:one)
     )
     assert_not transaction.valid?
   end
@@ -24,7 +22,6 @@ class TransactionTest < ActiveSupport::TestCase
     transaction = Transaction.new(
       amount: 50.0,
       date: Time.current,
-      external_method: external_methods(:one)
     )
     assert_not transaction.valid?
   end
@@ -32,6 +29,5 @@ class TransactionTest < ActiveSupport::TestCase
   test "has associations" do
     transaction = transactions(:one)
     assert_instance_of Account, transaction.account
-    assert_instance_of ExternalMethod, transaction.external_method
   end
 end
