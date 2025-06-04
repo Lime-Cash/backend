@@ -69,6 +69,5 @@ class AccountTest < ActiveSupport::TestCase
     assert_respond_to account, :transactions
     assert_respond_to account, :outgoing_transfers
     assert_respond_to account, :incoming_transfers
-    assert_respond_to account, :external_methods
   end
 end

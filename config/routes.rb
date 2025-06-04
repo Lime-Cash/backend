@@ -16,6 +16,10 @@ Rails.application.routes.draw do
   # Tranfers routes
   post "/transfer" => "transfers#create"
 
+  # Transactions routes
+  post "/deposit_bank" => "transactions#deposit_bank", as: :deposit_bank
+  post "/withdraw_bank" => "transactions#withdraw_bank", as: :withdraw_bank
+
   # Health check route
   get "up" => "rails/health#show", as: :rails_health_check
 end
