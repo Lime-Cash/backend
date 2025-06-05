@@ -15,6 +15,8 @@ class AccountService
         type: "transaction",
         id: t.id,
         amount: t.amount,
+        transaction_type: t.transaction_type,
+        external_service: t.external_service,
         created_at: t.created_at
       }
     end

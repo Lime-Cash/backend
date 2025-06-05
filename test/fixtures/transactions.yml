@@ -1,10 +1,14 @@
 # transactions.yml
 one:
   amount: 75.00
+  transaction_type: deposit
+  external_service: bank
   date: 2025-04-30 19:44:18
   account: one
 
 two:
   amount: 125.00
+  transaction_type: withdrawal
+  external_service: bank
   date: 2025-04-30 19:44:18
   account: two

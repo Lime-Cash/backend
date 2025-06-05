@@ -59,6 +59,8 @@ class TransactionsControllerTest < ActionDispatch::IntegrationTest
     assert_not_nil response_body["transaction"]
     assert_not_nil response_body["bank_response"]
     assert_equal "100.0", response_body["transaction"]["amount"]
+    assert_equal "deposit", response_body["transaction"]["transaction_type"]
+    assert_equal "bank", response_body["transaction"]["external_service"]
 
     # Verify account balance was updated using real service logic
     @account.reload
@@ -131,6 +133,8 @@ class TransactionsControllerTest < ActionDispatch::IntegrationTest
     response_body = JSON.parse(@response.body)
     assert response_body["success"]
     assert_equal "150.5", response_body["transaction"]["amount"]
+    assert_equal "deposit", response_body["transaction"]["transaction_type"]
+    assert_equal "bank", response_body["transaction"]["external_service"]
 
     # Verify real service logic updated the balance correctly
     @account.reload
@@ -165,7 +169,9 @@ class TransactionsControllerTest < ActionDispatch::IntegrationTest
     assert response_body["success"]
     assert_not_nil response_body["transaction"]
     assert_not_nil response_body["bank_response"]
-    assert_equal "-50.0", response_body["transaction"]["amount"]
+    assert_equal "50.0", response_body["transaction"]["amount"]
+    assert_equal "withdrawal", response_body["transaction"]["transaction_type"]
+    assert_equal "bank", response_body["transaction"]["external_service"]
 
     # Verify account balance was updated using real service logic
     @account.reload
@@ -252,7 +258,9 @@ class TransactionsControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
     response_body = JSON.parse(@response.body)
     assert response_body["success"]
-    assert_equal "-75.25", response_body["transaction"]["amount"]
+    assert_equal "75.25", response_body["transaction"]["amount"]
+    assert_equal "withdrawal", response_body["transaction"]["transaction_type"]
+    assert_equal "bank", response_body["transaction"]["external_service"]
 
     # Verify real service logic updated the balance correctly
     @account.reload
