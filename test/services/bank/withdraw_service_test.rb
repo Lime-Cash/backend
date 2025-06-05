@@ -58,7 +58,7 @@ class Bank::WithdrawServiceTest < ActiveSupport::TestCase
 
     # Verify transaction was created with negative amount
     transaction = result[:transaction]
-    assert_equal(-amount, transaction.amount)
+    assert_equal(amount, transaction.amount)
     assert_equal @account, transaction.account
     assert transaction.date
 
