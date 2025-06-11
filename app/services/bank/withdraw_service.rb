@@ -21,7 +21,9 @@ module Bank
       account.save!
 
       transaction = account.transactions.create!(
-        amount: -amount,
+        amount: amount,
+        transaction_type: "withdrawal",
+        external_service: "bank",
         date: Time.current
       )
 

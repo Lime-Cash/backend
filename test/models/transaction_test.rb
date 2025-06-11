@@ -4,6 +4,8 @@ class TransactionTest < ActiveSupport::TestCase
   test "valid transaction" do
     transaction = Transaction.new(
       amount: 50.0,
+      transaction_type: "deposit",
+      external_service: "bank",
       date: Time.current,
       account: accounts(:one),
     )
@@ -13,6 +15,8 @@ class TransactionTest < ActiveSupport::TestCase
   test "requires amount" do
     transaction = Transaction.new(
       date: Time.current,
+      transaction_type: "deposit",
+      external_service: "bank",
       account: accounts(:one),
     )
     assert_not transaction.valid?
@@ -21,8 +25,30 @@ class TransactionTest < ActiveSupport::TestCase
   test "requires account" do
     transaction = Transaction.new(
       amount: 50.0,
+      transaction_type: "deposit",
+      external_service: "bank",
       date: Time.current,
     )
+    assert_not transaction.valid?
+  end
+
+  test "requires transaction type" do
+    transaction = Transaction.new(
+      amount: 50.0,
+      external_service: "bank",
+      date: Time.current,
+    )
+
+    assert_not transaction.valid?
+  end
+
+  test "requires external service" do
+    transaction = Transaction.new(
+      amount: 50.0,
+      transaction_type: "deposit",
+      date: Time.current,
+    )
+
     assert_not transaction.valid?
   end
 
