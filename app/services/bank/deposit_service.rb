@@ -21,6 +21,8 @@ module Bank
 
       transaction = account.transactions.create!(
         amount: amount,
+        transaction_type: "deposit",
+        external_service: "bank",
         date: Time.current
       )
 

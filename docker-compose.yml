@@ -23,6 +23,8 @@ services:
       DATABASE_URL: postgres://wallet_api:${DB_PASSWORD}@db:5432/wallet_api_production
       RAILS_MASTER_KEY: ${RAILS_MASTER_KEY}
       BANK_API_URL: http://bank_api:3000
+    ports:
+      - "80:80"
     depends_on:
       - db
       - bank_api
