@@ -24,6 +24,7 @@ class RailsAPIUser(HttpUser):
           self.__class__.user_index += 1
       self.email = user["email"]
       self.password = user["password"]
+      self.login_user()
 
   def ensure_login(self):
       if not self.token:
@@ -36,8 +37,8 @@ class RailsAPIUser(HttpUser):
         "Content-Type": "application/json"
       }
     return {"Content-Type": "application/json"}
-  
-  @task(2)
+
+  @task(1)
   def login_user(self):
       payload = {
           "email": self.email,
