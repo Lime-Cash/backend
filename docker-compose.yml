@@ -28,8 +28,6 @@ services:
     depends_on:
       - db
       - bank_api
-    ports:
-      - "80:80"
 
 volumes:
   postgres_dev_data:
