@@ -14,7 +14,7 @@ module Bank
       user = find_user!
       account = user.account || raise(StandardError, "User does not have an account")
 
-      bank_response = BankApi.withdraw(cbu: cbu, amount: amount)
+      bank_response = BankClient.withdraw(cbu: cbu, amount: amount)
 
       account.deposit(amount)
       account.save!
