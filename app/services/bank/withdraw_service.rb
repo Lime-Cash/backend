@@ -16,7 +16,7 @@ module Bank
 
       account.withdraw(amount)
 
-      bank_response = BankApi.deposit(cbu: cbu, amount: amount)
+      bank_response = BankClient.deposit(cbu: cbu, amount: amount)
 
       account.save!
 
