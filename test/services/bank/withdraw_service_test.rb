@@ -1,20 +1,15 @@
 require "test_helper"
-require "net/http"
-require "uri"
 
 class Bank::WithdrawServiceTest < ActiveSupport::TestCase
-  # Valid CBU from bank API server
   VALID_CBU = "1234567890123456789012"
   INVALID_CBU = "1111111111111111111111"
 
   def setup
-    # Clean up data
     Transfer.delete_all
     Transaction.delete_all
     Account.delete_all
     User.delete_all
 
-    # Create test user and account
     @user = User.create!(
       name: "Test User",
       email: "test@example.com",
@@ -22,24 +17,12 @@ class Bank::WithdrawServiceTest < ActiveSupport::TestCase
     )
     @account = Account.create!(
       user: @user,
-      balance: 500.0  # Higher balance for withdrawal tests
+      balance: 500.0
     )
 
-    # Ensure we're using the test bank API URL
-    @original_bank_api_url = ENV["BANK_API_URL"]
-    ENV["BANK_API_URL"] = "http://localhost:3001"
-
-    # Verify bank API is accessible
-    begin
-      Net::HTTP.get_response(URI("http://localhost:3001"))
-    rescue Errno::ECONNREFUSED
-      skip "Bank API server is not running on localhost:3001. Please start it with: cd bank-api && npm start"
-    end
+    Bank::Api::Mock.valid_cbus = [ VALID_CBU ]
   end
 
-  def teardown
-    ENV["BANK_API_URL"] = @original_bank_api_url
-  end
 
   test "successful withdrawal decreases user account balance and creates transaction" do
     initial_balance = @account.balance
@@ -52,25 +35,21 @@ class Bank::WithdrawServiceTest < ActiveSupport::TestCase
     assert result[:transaction]
     assert result[:bank_response]
 
-    # Verify user account balance decreased
     @account.reload
     assert_equal initial_balance - amount, @account.balance
 
-    # Verify transaction was created with negative amount
     transaction = result[:transaction]
     assert_equal(amount, transaction.amount)
     assert_equal @account, transaction.account
     assert transaction.date
 
-    # Verify bank API was called and money was deposited to bank account
     bank_response = result[:bank_response]
     assert bank_response["success"]
-    assert_equal "deposit", bank_response["data"]["transaction"]["type"]
-    assert_equal amount, bank_response["data"]["depositedAmount"]
+    assert_equal amount, bank_response["amount"]
+    assert_equal VALID_CBU, bank_response["cbu"]
   end
 
   test "withdrawal with insufficient user funds returns error" do
-    # Try to withdraw more than the account balance
     excessive_amount = @account.balance + 100.0
     service = Bank::WithdrawService.new(cbu: VALID_CBU, user_id: @user.id, amount: excessive_amount)
 
@@ -88,7 +67,7 @@ class Bank::WithdrawServiceTest < ActiveSupport::TestCase
 
     assert_not result[:success]
     assert result[:error]
-    assert_includes result[:error], "not found"
+    assert_includes result[:error], "Invalid CBU"
   end
 
   test "withdrawal with invalid amount returns error" do
@@ -151,14 +130,11 @@ class Bank::WithdrawServiceTest < ActiveSupport::TestCase
     initial_balance = @account.balance
     initial_transaction_count = @account.transactions.count
 
-    # Use invalid CBU to force bank API error
     service = Bank::WithdrawService.new(cbu: INVALID_CBU, user_id: @user.id, amount: 50.0)
     result = service.call
 
-    # Ensure the operation failed
     assert_not result[:success]
 
-    # Ensure no changes were made to the user account
     @account.reload
     assert_equal initial_balance, @account.balance
     assert_equal initial_transaction_count, @account.transactions.count
@@ -172,10 +148,8 @@ class Bank::WithdrawServiceTest < ActiveSupport::TestCase
     service = Bank::WithdrawService.new(cbu: VALID_CBU, user_id: @user.id, amount: excessive_amount)
     result = service.call
 
-    # Ensure the operation failed
     assert_not result[:success]
 
-    # Ensure no changes were made to the user account or bank account
     @account.reload
     assert_equal initial_balance, @account.balance
     assert_equal initial_transaction_count, @account.transactions.count
@@ -196,11 +170,9 @@ class Bank::WithdrawServiceTest < ActiveSupport::TestCase
 
     assert result2[:success]
 
-    # Verify final balance is correct
     @account.reload
     assert_equal initial_balance - amount1 - amount2, @account.balance
 
-    # Verify both transactions were created
     assert_equal 2, @account.transactions.count
   end
 end

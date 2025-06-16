@@ -10,6 +10,8 @@ class TransactionsControllerTest < ActionDispatch::IntegrationTest
     payload = { user_id: @user.id }
     @token = JWT.encode(payload, Rails.application.credentials.secret_key_base, "HS256")
     @auth_headers = { "Authorization" => "Bearer #{@token}" }
+
+    Bank::Api::Mock.reset!
   end
 
   # Authentication tests
