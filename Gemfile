@@ -55,4 +55,4 @@ group :development, :test do
   gem "ruby-debug-ide", require: false # Improved debugging
 end
 
-gem "jwt", "~> 2.10"
+gem "jwt", "~> 3.1"
